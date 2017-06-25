@@ -2,6 +2,7 @@
 import csv
 import re
 import osuData
+import enumT
 import OsuGeneralReader as generalReader
 import OsuDifficultyReader as difficultyReader
 import OsuMetaDataReader as metadataReader
@@ -9,7 +10,7 @@ import OsuHitObjectReader as hitObjectReader
 
 def getLines(fileName):
 	
-	with open(fileName, 'rb') as csvfile:
+	with open(fileName, 'r') as csvfile:
 		lines = []
 		reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 		for row in reader:
@@ -36,30 +37,11 @@ def getOsuData(fileName):
 		elif(section == '[Difficulty]'):
 			difficultyReader.read(line)
 		elif(section == '[HitObjects]'):
-			hitObjectReader.read(line)
+			enumT.parse(line)
+			#hitObjectReader.read(line)
 
-getOsuData('Kozato.osu')#test.osu #Kozato.osu	
+getOsuData('Station Earth - Cold Green Eyes ft. Roos Denayer (Bearizm) [Divine].osu')#test.osu #Kozato.osu	
+print("numCircles: ", osuData.numCircles)
+print("numSliders: ", osuData.numSliders)
+print("numSpinners: ", osuData.numSpinners)
 #print osuData.hitObjects
-
-
-
-"""
-def gethitObjects(filename):
-	with open(filename,'r') as f:
-		content = f.read()
-		keyword = '[HitObjects]'
-		preHitObjects, keyword, hitObjects = content.partition(keyword)
-		hitObjects = hitObjects.split('\n')
-		hitobjs = []
-		for line in hitObjects:
-			linedata = line.split(',')
-			if(len(linedata) >= 4):
-				if(linedata[4] == '1' or '6'):
-					hitobjs.append((linedata[0],linedata[1],linedata[2],linedata[3]))
-					print("circle")
-				elif(linedata[4] == '2'):
-					print("slider")
-				else:
-					print("unknown")
-		return hitobjs
-"""

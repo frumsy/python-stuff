@@ -1,4 +1,9 @@
 #osudata
+
+numCircles = 0
+numSliders = 0
+numSpinners = 0
+
 general = {
 			'AudioFilename': '',
 			'AudioLeadIn': '',
@@ -24,7 +29,7 @@ metadata = {
 	'BeatmapID': '',
 	'BeatmapSetID': ''
 	}
-		
+	
 difficulty = {
 	'HPDrainRate':'',
 	'CircleSize':'',
