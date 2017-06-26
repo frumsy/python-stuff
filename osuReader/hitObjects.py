@@ -1,7 +1,8 @@
 #osuhitobjects
+#from osuTypes import CurveTypes
 
 #x,y,time,type,hitSound,addition
-class cricle:
+class Circle:
 	x = None
 	y = None
 	hitTime = None
@@ -18,22 +19,19 @@ class cricle:
 
 	
 #x, y, time, type, hitSound, sliderType|curveX:curveY|...|repeat, pixelLength|edgeHitsound:edgeAddition, addition
-class slider:
+class Slider:
 	x = None
 	y = None
 	hitTime = None
 	hitType = None
-	sliderType = None
+	sliderType = None #curveType
 	curves = []
 	repeats = None
 	pixLength = None
 	edgeHitsound = None
 	edgeAddition = None
-	def __init__(self, x, y, hitTime, hitType, sliderType, curves, repeats, pixLength, edgeHitsound = None, edgeAddition = None):
-		self.x = x
-		self.y = y
+	def __init__(self, hitTime, sliderType, curves, repeats, pixLength, edgeHitsound = None, edgeAddition = None):
 		self.hitTime = hitTime
-		self.hitType = hitType
 		self.sliderType = sliderType
 		self.curves = curves
 		self.repeats = repeats
@@ -44,7 +42,7 @@ class slider:
 		
 
 #x,y,time,type,hitSound,endTime,addition
-class spinner:
+class Spinner:
 	x = None
 	y = None
 	hitTime = None

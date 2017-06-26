@@ -2,20 +2,11 @@
 from enum import IntFlag
 import copy
 import osuData
-
-class CurveType(IntFlag):
-    Catmull = 1,
-    Bezier = 2,
-    Linear = 3,
-    PerfectCurve = 4
-
-class HitObjectTypes(IntFlag):
-	Circle = 1 << 0,
-	Slider = 1 << 1,
-	NewCombo = 1 << 2,
-	Spinner = 1 << 3,
-	ColourHax = 112,
-	Hold = 1 << 7
+from hitObjects import Circle
+from hitObjects import Slider
+from hitObjects import Spinner
+from osuTypes import CurveTypes
+from osuTypes import HitObjectTypes
 
 class SampleBankInfo():
 	Normal = None#str
@@ -27,10 +18,10 @@ class SampleBankInfo():
 	
 def getCurveType(x):
 	return {
-		'C': CurveType.Catmull,
-		'B': CurveType.Bezier,
-		'L': CurveType.Linear,
-		'P': CurveType.PerfectCurve
+		'C': CurveTypes.Catmull,
+		'B': CurveTypes.Bezier,
+		'L': CurveTypes.Linear,
+		'P': CurveTypes.PerfectCurve
 			}[x]
 			
 #soundType = int(split[4])
@@ -68,16 +59,17 @@ def parse(line):
 		
 		#if Circle
 		if(hitType & HOT.Circle):
-			print("Circle")
+			#print("Circle")
 			osuData.numCircles += 1
 			result = (split[0], split[1], combo);#x,y,combo
+			x = Circle(split[0], split[1], split[2])
 			if (len(split) > 5):#Circle
 				readCustomBanks(split[5], bankInfo)
 		#if Slider	
 		elif((hitType & HOT.Slider) > 0):
-			print("slider")
+			#print("slider")
 			osuData.numSliders += 1
-			curveType = CurveType.Catmull
+			curveType = CurveTypes.Catmull
 			curveLength = 0.0
 			points =[(split[0], split[1])]
 			pointsplit = split[5].split('|')
@@ -99,7 +91,9 @@ def parse(line):
 			if (len(split) > 10):
 				readCustomBanks(split[10], bankInfo)
 				
-			
+			x = Slider(split[0], curveType, points, repeatCount, length)
+			#NEXT SECTION IS NOT NEEDED BUT ALREADY PORTED: !!!!!!!!!!!!!!!!!!!!!!!!!!!!@@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 			#One node for each repeat + the start and end nodes
             #Note that the first length of the slider is considered a repeat, but there are no actual repeats happening
 			nodes = max(0, repeatCount - 1) + 2
@@ -141,12 +135,15 @@ def parse(line):
 			"""
 			
 			result = ((int(split[0]), int(split[1])), combo, points, length, curveType, repeatCount)#, nodeSamples have been taken out because they are not needed right now 
-	 
+	 		
+			#MOVING ON TO NEEDED MATERIAL AGAIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 		#if Spinner
 		elif((hitType & HOT.Spinner) > 0):
-			print("spinner")
+			#print("spinner")
 			osuData.numSpinners += 1
 			result = ((512/2, 384/2), float(split[5]))#position end time
+			x = Spinner(512/2, 384/2, float(split[2]), float(split[5]))
 			if (len(split) > 6):
 				readCustomBanks(split[6], bankInfo)
 				
