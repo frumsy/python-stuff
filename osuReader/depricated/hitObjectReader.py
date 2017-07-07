@@ -1,6 +1,7 @@
 #python script to read HitObjects out of osu files
 #returns a list of tuples in the form (x, y, time, hit_object_type) 
 #hit_object_type of 6 means new color
+"""
 def gethitObjects(filename):
 	with open(filename,'r') as f:
 		content = f.read()
@@ -21,3 +22,4 @@ def gethitObjects(filename):
 		return hitobjs
 #
 #print gethitObjects('workfile.osu')
+"""

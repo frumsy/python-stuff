@@ -1,12 +1,12 @@
 #This file is very similar to the ConvertHitObjectType.cs file in osu. Simply ported to python and changed a bit
 from enum import IntFlag
-import copy
-import osuData
 from hitObjects import Circle
 from hitObjects import Slider
 from hitObjects import Spinner
 from osuTypes import CurveTypes
 from osuTypes import HitObjectTypes
+import copy
+import osuData
 
 class SampleBankInfo():
 	Normal = None#str
@@ -61,8 +61,8 @@ def parse(line):
 		if(hitType & HOT.Circle):
 			#print("Circle")
 			osuData.numCircles += 1
-			result = (split[0], split[1], combo);#x,y,combo
-			x = Circle(split[0], split[1], split[2])
+			result = (int(split[0]), int(split[1]), combo);#x,y,combo
+			return Circle(split[0], split[1], split[2])
 			if (len(split) > 5):#Circle
 				readCustomBanks(split[5], bankInfo)
 		#if Slider	
@@ -91,7 +91,8 @@ def parse(line):
 			if (len(split) > 10):
 				readCustomBanks(split[10], bankInfo)
 				
-			x = Slider(split[0], curveType, points, repeatCount, length)
+			return Slider(split[0], split[1], split[2], curveType, points, repeatCount, length)
+			
 			#NEXT SECTION IS NOT NEEDED BUT ALREADY PORTED: !!!!!!!!!!!!!!!!!!!!!!!!!!!!@@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			#One node for each repeat + the start and end nodes
@@ -134,7 +135,7 @@ def parse(line):
 				nodeSamples.insert(convertSoundType(nodeSoundTypes[i], nodeBankInfos[i]))
 			"""
 			
-			result = ((int(split[0]), int(split[1])), combo, points, length, curveType, repeatCount)#, nodeSamples have been taken out because they are not needed right now 
+			#result = (float(split[2])), combo, points, length, curveType, repeatCount)#, nodeSamples have been taken out because they are not needed right now 
 	 		
 			#MOVING ON TO NEEDED MATERIAL AGAIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -143,7 +144,7 @@ def parse(line):
 			#print("spinner")
 			osuData.numSpinners += 1
 			result = ((512/2, 384/2), float(split[5]))#position end time
-			x = Spinner(512/2, 384/2, float(split[2]), float(split[5]))
+			return Spinner(512/2, 384/2, float(split[2]), float(split[5]))
 			if (len(split) > 6):
 				readCustomBanks(split[6], bankInfo)
 				
@@ -153,7 +154,7 @@ def parse(line):
 			if (len(split) > 5 and len(split[5]) > 0):
 				ss = split[5].split(':')
 				endTime = float(ss[0])
-				print(":".join(ss[1:]))
+				#print(":".join(ss[1:]))
 				readCustomBanks(":".join(ss[1:]), bankInfo)#This might be a problem!@!@!@! ERROR
 	
 			result = ((int(split[0]), int(split[1])), combo, endTime)
@@ -161,9 +162,8 @@ def parse(line):
 		if (result == None):
 			raise ValueError('Unknown hit object type.')
 		
-		timedResult = (float(split[2]), result)
 		#result.Samples = convertSoundType(soundType, bankInfo)
-		return timedResult
+		return 'ERROR'
 
 
 

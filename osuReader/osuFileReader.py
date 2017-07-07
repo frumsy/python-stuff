@@ -6,7 +6,6 @@ import enumT
 import OsuGeneralReader as generalReader
 import OsuDifficultyReader as difficultyReader
 import OsuMetaDataReader as metadataReader
-import OsuHitObjectReader as hitObjectReader
 
 def getLines(fileName):
 	
@@ -23,12 +22,14 @@ def getOsuData(fileName):
 	section = 'version'	
 	sections = ['[General]','[Metadata]','[Difficulty]','[HitObjects]']
 	
+	hits = []
+	
 	lines = getLines(fileName)
 	for line in lines:
 		#add section to get file format here
 		if(rTitle.match(line)):
 			section = line
-			print(section)
+			#print(section)
 			
 		if(section == '[General]'):
 			generalReader.read(line)
@@ -37,11 +38,13 @@ def getOsuData(fileName):
 		elif(section == '[Difficulty]'):
 			difficultyReader.read(line)
 		elif(section == '[HitObjects]'):
-			enumT.parse(line)
+			hits.append(enumT.parse(line))
 			#hitObjectReader.read(line)
+	return hits
 
-getOsuData('Station Earth - Cold Green Eyes ft. Roos Denayer (Bearizm) [Divine].osu')#test.osu #Kozato.osu	
-print("numCircles: ", osuData.numCircles)
-print("numSliders: ", osuData.numSliders)
-print("numSpinners: ", osuData.numSpinners)
+#getOsuData('Station Earth - Cold Green Eyes ft. Roos Denayer (Bearizm) [Divine].osu')#test.osu #Kozato.osu	
+#print("numCircles: ", osuData.numCircles)
+#print("numSliders: ", osuData.numSliders)
+#print("numSpinners: ", osuData.numSpinners)
+
 #print osuData.hitObjects

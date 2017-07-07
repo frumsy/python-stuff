@@ -10,12 +10,18 @@ class Circle:
 	addition = None
 	
 	def __init__(self, x, y, hitTime, hitSound = None, addition = None):
-		self.x = x
-		self.y = y
-		self.hitTime = hitTime
+		self.x = int(x)
+		self.y = int(y)
+		self.hitTime = float(hitTime)
 		self.hitSound = hitSound
 		self.addition = addition
-		print("circle")
+		#print("circle")
+		
+	def getPosition(self):
+		return (self.x, self.y)
+	
+	def getTime(self):
+		return self.hitTime
 
 	
 #x, y, time, type, hitSound, sliderType|curveX:curveY|...|repeat, pixelLength|edgeHitsound:edgeAddition, addition
@@ -30,15 +36,35 @@ class Slider:
 	pixLength = None
 	edgeHitsound = None
 	edgeAddition = None
-	def __init__(self, hitTime, sliderType, curves, repeats, pixLength, edgeHitsound = None, edgeAddition = None):
-		self.hitTime = hitTime
+	def __init__(self, x, y, hitTime, sliderType, curves, repeats, pixLength, edgeHitsound = None, edgeAddition = None):
+		self.x = int(x)
+		self.y = int(y)
+		self.hitTime = float(hitTime)
 		self.sliderType = sliderType
 		self.curves = curves
 		self.repeats = repeats
 		self.pixLength = pixLength
 		self.edgeHitsound = edgeHitsound
 		self.edgeAddition = edgeAddition
-		print("Slider")
+		#print("Slider")
+		
+	def getPosition(self):
+		return (self.x, self.y)
+	
+	def getTime(self):
+		return self.hitTime
+		
+	def getType(self):
+		return self.sliderType
+		
+	def getCurves(self):
+		return self.curves
+	
+	def getRepeats(self):
+		return self.repeats
+		
+	def getLength(self):
+		return self.pixLength
 		
 
 #x,y,time,type,hitSound,endTime,addition
@@ -50,10 +76,20 @@ class Spinner:
 	endTime = None 
 	addition = None
 	def __init__(self, x, y, hitTime, endTime, hitSound = None, addition = None):
-		self.x = x
-		self.y = y
-		self.hitTime = hitTime
+		self.x = int(x)
+		self.y = int(y)
+		self.hitTime = float(hitTime)
 		self.endTime = endTime
 		self.hitSound = None		
 		self.addition = None
-		print("spinner")
+		#print("spinner")
+	
+	def getPosition(self):
+		return (self.x, self.y)
+	
+	def getTime(self):
+		return self.hitTime
+	
+	def getEnd(self):
+		return self.endTime
+	

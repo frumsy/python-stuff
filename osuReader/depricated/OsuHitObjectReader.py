@@ -1,3 +1,4 @@
+"""
 import re
 import osuData
 		
@@ -16,10 +17,11 @@ def read(line):
 	if(len(data) > 4):
 		hitType = int(data[3]) & ~osuData.ColourHax
 		combo = hitType == osuData.NewCombo
-		print(combo)
-		print(hitType)
+		#print(combo)
+		#print(hitType)
 	
 	
 	
 	
 	#THIS WORKS BUT NOT v9 FOR v13: r'(\d+,){5}(\d:){4}'
+	"""
